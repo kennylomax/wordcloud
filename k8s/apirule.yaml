@@ -1,0 +1,18 @@
+apiVersion: gateway.kyma-project.io/v1alpha1
+kind: APIRule
+metadata:
+  labels:
+    app: gateway-service
+  name: wordcloud
+spec:
+  service:
+    host: hds.{YOUR KYMA DOMAIN}
+    name: wordcloud
+    port: 8082
+  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  rules:
+    - path: /.*
+      methods: ["GET","POST"]
+      accessStrategies:
+        - handler: noop
+      mutators: []
