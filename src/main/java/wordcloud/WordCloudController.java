@@ -25,10 +25,16 @@ import org.springframework.web.bind.annotation.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.ws.rs.core.*;
+import java.util.*;
+import com.kennycason.kumo.bg.PixelBoundryBackground;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.File;
+import java.io.InputStream;
 
 @RestController
 public class WordCloudController {
-
     @GetMapping("/ping")
     public String ping() throws java.net.UnknownHostException {
         String s = String.format("LocalHost: %s %s, Remote Address: %s %s\n" , 
@@ -47,17 +53,32 @@ public class WordCloudController {
 
         InputStream is =  new ByteArrayInputStream(textForWordCloud.getText().getBytes());
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load( is );
-        final Dimension dimension = new Dimension(200, 200);
+      
+        final Dimension dimension = new Dimension(600, 600);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
-        wordCloud.setPadding(2);
-        wordCloud.setBackground(new CircleBackground(200));
-        wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
-        wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
+        Resource resource = new ClassPathResource("whale_small.png");
+	    InputStream bgimage = resource.getInputStream();
+        wordCloud.setBackground(new PixelBoundryBackground(bgimage));
+        wordCloud.setBackgroundColor(new Color(0xFFFFFF));
+        wordCloud.setPadding(0);
+        wordCloud.setColorPalette(buildRandomColorPalette(20));
+        wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         wordCloud.build(wordFrequencies);
+
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         wordCloud.writeToStreamAsPNG(bos);
         return bos.toByteArray();
     }
+    private static final Random RANDOM = new Random();
+
+    private static ColorPalette buildRandomColorPalette(final int n) {
+        final Color[] colors = new Color[n];
+        for (int i = 0; i < colors.length; i++) {
+            colors[i] = new Color(RANDOM.nextInt(230) + 25, RANDOM.nextInt(230) + 25, RANDOM.nextInt(230) + 25);
+        }
+        return new ColorPalette(colors);
+    }
+
 
     static class TextForWordCloud {
         private String text;
