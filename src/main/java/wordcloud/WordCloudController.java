@@ -54,11 +54,8 @@ public class WordCloudController {
         InputStream is =  new ByteArrayInputStream(textForWordCloud.getText().getBytes());
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load( is );
       
-        final Dimension dimension = new Dimension(600, 600);
+        final Dimension dimension = new Dimension(300, 300);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
-        Resource resource = new ClassPathResource("whale_small.png");
-	    InputStream bgimage = resource.getInputStream();
-        wordCloud.setBackground(new PixelBoundryBackground(bgimage));
         wordCloud.setBackgroundColor(new Color(0xFFFFFF));
         wordCloud.setPadding(0);
         wordCloud.setColorPalette(buildRandomColorPalette(20));
