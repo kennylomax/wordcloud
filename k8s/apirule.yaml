@@ -6,7 +6,7 @@ metadata:
   name: wordcloud
 spec:
   service:
-    host: hds.{YOUR KYMA DOMAIN}
+    host: wordcloud.YOUR_KYMA_DOMAIN
     name: wordcloud
     port: 8082
   gateway: kyma-gateway.kyma-system.svc.cluster.local
