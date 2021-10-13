@@ -1,37 +1,25 @@
 package wordcloud;
-import java.io.*;
-import java.awt.*;
-import com.kennycason.kumo.*;
-import com.kennycason.kumo.bg.Background;
-import com.kennycason.kumo.bg.CircleBackground;
-import com.kennycason.kumo.font.FontWeight;
-import com.kennycason.kumo.font.KumoFont;
-import com.kennycason.kumo.font.scale.FontScalar;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.util.List;
+import java.util.Random;
+
+import com.kennycason.kumo.CollisionMode;
+import com.kennycason.kumo.WordCloud;
+import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
-import com.kennycason.kumo.font.scale.LogFontScalar;
-import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
-import com.kennycason.kumo.wordstart.CenterWordStart;
-import com.kennycason.kumo.wordstart.RandomWordStart;
-import com.kennycason.kumo.wordstart.WordStartStrategy;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.List;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import javax.ws.rs.core.*;
-import java.util.*;
-import com.kennycason.kumo.bg.PixelBoundryBackground;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
-import java.io.InputStream;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WordCloudController {
